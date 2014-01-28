@@ -1,0 +1,64 @@
+HW-1	CS230	10 points	Due: 1/24/14
+
+Create a C program that will calculate the interest paid on 
+a loan. The equations we will use are:
+
+     I[o] = (r/12)*B
+     I[n] = (r/12)*(B-P+I[n-1])
+
+Where:
+     r is the annual interest rate (assume 25% or 0.25).
+     B is the amount borrowed (assume $2000).
+     P is the payment amount (pick some value).
+     I[o] is the interest due after the first month.
+     I[n] is the interest due after the nth month.
+
+Your program must prompt the user for the monthly payment that
+they wish to make. Your program must then display the interest 
+rate (r), the initial balance (B), the monthly payment (P). 
+Your program must then produce a month-by-month table showing the
+month, the interest due/paid each month and the remaining balance.
+
+The table must take the user to the payoff-point (where balance 
+becomes zero or negative). Finally the program must display the 
+total interest paid over the life of the loan.
+
+Example:
+--------
+Enter your monthly payment: 200
+
+r = 0.25
+B = 2000.0
+P = 200.0
+
+1 41.67	2000.00
+2 38.37	1841.67
+3 35.00	1680.03
+4 31.56	1515.04
+5 28.05	1346.60
+6 24.47	1174.65
+7 20.82	999.12
+8 17.08	819.94
+9 13.27	637.02
+10 9.38	450.29
+11 5.41	259.67
+12 1.36	65.08
+13 -2.78 -133.56
+
+total interest paid: 266.44
+
+
+CONCERNS:
+---------
+1. Watch the data types!
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your 
+   program.
+
+3. Your source code must be named hw1-yourname.c
+
+3. Email your source (subject hw1-yourname) to rmarsh@cs.und.edu 
