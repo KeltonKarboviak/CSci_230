@@ -1,0 +1,7 @@
+cat
+dog
+anteater
+cobra
+zebra
+rhino
+monkeys

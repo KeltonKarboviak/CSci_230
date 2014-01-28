@@ -1,0 +1,26 @@
+HW-2	CS230	10 points	Due: 1/31/2014
+
+Write a program to alphabetically merge the three word list files 
+(american0.txt, american1.txt, and american2.txt). The output must 
+be a file called words.txt and the output must be alphabetically 
+sorted.
+
+Note that you CAN cheat by using Linux commands to do this. However,
+a single C program must implement your process regardless.
+
+"man 3 system" and "man cat" - As Foghorn Leghorn might say "That's a hint son."
+
+You might also want to review 
+
+http://rmarsh.cs.und.edu/CLASS/CS230/HANDOUTS/unix-commands.txt
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your 
+   program.
+
+3. Your source code must be named hw2-yourname.c
+
+3. Email your source (subject hw2-yourname) to rmarsh@cs.und.edu 
