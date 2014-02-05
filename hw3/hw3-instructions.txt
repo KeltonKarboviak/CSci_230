@@ -1,0 +1,75 @@
+HW-3	CS230	10 points	Due: 2/10/2014
+
+Malloc the Barbarian and Calloc, his faithful wife,
+are heroes in Tatooinian folklore. You will honor
+their memory with this assignment.
+
+Write a C program  (no system commands allowed) to
+numerically merge the three integer list files
+(list0.txt, list1.txt, and list2.txt). The output
+must be a file called hw3.out and the output must
+be numerically sorted.
+
+Your code must use malloc/calloc to create dynamically
+allocated arrays to hold the data. Also, you MUST call
+free() as appropriate.
+
+Note that you CANNOT cheat by using Linux commands to
+do this. It must be done entirely in your C code.
+
+Note that the size of the files will NOT be the same
+as those on my website. They may be larger or smaller.
+
+Hint:
+Foghorn Leghorn: I need, I say, I need a pointer, and
+that dog's got just the head for it. Pointed, that is.
+
+More Hints:
+1. Assume integers.
+2. Determine file sizes first (they may be different).
+3. Create a single dynamic array to hold all of the numbers.
+4. Sort the numbers.
+5. Write result to hw3.out.
+6. man 3 malloc or calloc.
+7. man 3 feof.
+
+SAMPLE TEST FILES:
+------------------
+1
+3
+7
+9
+
+2
+4
+8
+
+5
+6
+10
+0
+
+EXPECTED OUTPUT:
+----------------
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your
+   program.
+
+3. Your source code must be named hw3-yourname.c
+
+3. Email your source (subject hw3-yourname) to rmarsh@cs.und.edu
