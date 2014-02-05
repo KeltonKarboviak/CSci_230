@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 
-// Calculates and returns a single month's interest using the formulas provided
+/* Calculates and returns a single month's interest using the formulas provided */
 double calculateInterest(double r, double B, double P, double balance) {
 	double interest;
 	interest = (r / 12) * balance;
@@ -15,7 +15,7 @@ double calculateInterest(double r, double B, double P, double balance) {
 }
 
 
-// Takes all of the variables to create the output table
+/* Takes all of the variables to create the output table */
 void outputToTable(double rate, double borrowed, double payment) {
 	printf("\nr = %.2lf\nB = %.2lf\nP = %.2lf \n\n", rate, borrowed, payment); // Prints original info.
 
