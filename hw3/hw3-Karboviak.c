@@ -25,7 +25,7 @@ void bubbleSort(int *data, int size)  {
 
 int main(void) {
 	// Determine File Sizes
-	int size, num, i;
+	int size, temp, i;
 	FILE *inFile;
 
 	size = 0;
@@ -34,7 +34,9 @@ int main(void) {
 		else if (i == 1)  inFile = fopen("list1.txt", "r");
 		else              inFile = fopen("list2.txt", "r");
 
-		while (fscanf(inFile, "%d", &num) == 1) {
+		if (inFile == NULL)  exit (0);  // Return if file did not open correctly
+
+		while (fscanf(inFile, "%d", &temp) == 1) {
 			size++;
 		}
 
@@ -44,7 +46,7 @@ int main(void) {
 
 	// Create Dynamic Int Array
 	int *numberSet;
-	numberSet = calloc(size, sizeof(int));
+	numberSet = (int*) calloc(size, sizeof(int));
 	if (numberSet == NULL) return 0;  // Return if memory was not successfully allocated
 
 
@@ -55,6 +57,8 @@ int main(void) {
 		else if (i == 1)  inFile = fopen("list1.txt", "r");
 		else              inFile = fopen("list2.txt", "r");
 
+		if (inFile == NULL)  exit (0);  // Return if file did not open correctly
+
 		while (fscanf(inFile, "%d", &numberSet[size]) == 1) {
 			size++;
 		}
@@ -62,10 +66,8 @@ int main(void) {
 		fclose(inFile);
 	}
 
-
 	// Sort The Numbers
 	bubbleSort(numberSet, size);
-
 
 	// Write Numbers To Output File
 	FILE *outFile;
