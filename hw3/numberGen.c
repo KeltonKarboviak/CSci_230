@@ -17,26 +17,32 @@ int main(void) {
 
 	srand(time(NULL));
 	int i, k, nums;
+	int number, total = 0, size = 0;
 	for (i = 0; i < 3; i++) {
 		if (i == 0) {
 			outFile = fopen("list0.txt", "w");
-			nums = 1500;
+			nums = 1000;
 		} else if (i == 1) {
 			outFile = fopen("list1.txt", "w");
-			nums = 1250;
+			nums = 1000;
 		} else {
 			outFile = fopen("list2.txt", "w");
 			nums = 1000;
 		}
 
+
 		for (k = 0; k < nums; k++) {
-			fprintf(outFile, "%d\n", rand_lim(1,10000));
+			number = rand_lim(1,1000);
+			total += number;
+			size++;
+			fprintf(outFile, "%d\n", number);
 		}
 
 		fclose(outFile);
 	}
 
-	srand(time(NULL));
+	printf("Average: %d\n", total/size);
+
 
 	return 0;
 }
