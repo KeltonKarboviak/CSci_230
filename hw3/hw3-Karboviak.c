@@ -30,11 +30,11 @@ int main(void) {
 
 	size = 0;
 	for (i = 0; i < 3; i++) {
-		if (i == 0)       inFile = fopen("list0.txt", "r");
+		if      (i == 0)  inFile = fopen("list0.txt", "r");
 		else if (i == 1)  inFile = fopen("list1.txt", "r");
 		else              inFile = fopen("list2.txt", "r");
 
-		if (inFile == NULL)  exit (0);  // Return if file did not open correctly
+		if (inFile == NULL)  exit (0);  // Exit if file did not open correctly
 
 		while (fscanf(inFile, "%d", &temp) == 1) {
 			size++;
@@ -47,17 +47,17 @@ int main(void) {
 	// Create Dynamic Int Array
 	int *numberSet;
 	numberSet = (int*) calloc(size, sizeof(int));
-	if (numberSet == NULL) return 0;  // Return if memory was not successfully allocated
+	if (numberSet == NULL)  exit (0);  // Exit if memory was not successfully allocated
 
 
 	// Fill Array With Numbers
 	size = 0;
 	for (i = 0; i < 3; i++) {
-		if (i == 0)       inFile = fopen("list0.txt", "r");
+		if      (i == 0)  inFile = fopen("list0.txt", "r");
 		else if (i == 1)  inFile = fopen("list1.txt", "r");
 		else              inFile = fopen("list2.txt", "r");
 
-		if (inFile == NULL)  exit (0);  // Return if file did not open correctly
+		if (inFile == NULL)  exit (0);  // Exit if file did not open correctly
 
 		while (fscanf(inFile, "%d", &numberSet[size]) == 1) {
 			size++;
