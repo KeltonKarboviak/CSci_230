@@ -1,0 +1,92 @@
+HW-4	CS230	10 points	Due: 2/24/2014
+
+Write a program that designs primers from bacterial
+genomic DNA for PCR. Yippie!
+
+Your program requires 4 command-line arguments:
+A. The name of the DNA file (a string).
+B. The name of the FASTA file (a string).
+C. The size of the forward primer (integer).
+D. The size of the reverse primer (integer).
+
+If the user does not include the 4 required arguments
+your program must display a help message, then exit:
+
+ ************************************************************
+ * HW4 ? provides help menu.                                *
+ ************************************************************
+
+If the command-line argument is a "?" your program must
+display the following menu, then exit:
+
+ ************************************************************
+ * HW4 Help Menu.                                           *
+ *                                                          *
+ * HW4 will fail to start if no command line arguments are  *
+ * provided. To get this help menu start AADS as follows:   *
+ * ./HW4 ?                                                  *
+ *                                                          *
+ * Required command line arguments include:                 *
+ * ./HW4 DNA_file FASTA_file Forward_count Reverse_count    *
+ *                                                          *
+ ************************************************************
+
+If  the required command-line arguments are provided, your
+program must include 4 functions that perform the following:
+
+A. Load the DNA file.
+B. Load the FASTA file.
+C. Find the location in the DNA data where the FASTA data is.
+D. Determine and display the forward primer.
+E. Determine and display the reverse primer.
+
+Notes on A and B:
+1) A and B can be done with the same function.
+2) As both the DNA and FASTA files have a bunch of garbage characters
+   in them, I highly suggest you open these files for reading binary
+   (rb). The only characters we care about are the 'A', 'C', 'G', and
+   'T'. You can skip over any/all other characters.
+3) Your code MUST store the resulting characters in dynamic arrays.
+   one array for each file.
+4) Don't forget to trap errors, such as the DNA or FASTA file could
+   not be opened.
+
+Notes on C:
+1) To find where the FASTA data is in the DNA simply search character
+   by character, if you find a difference, your search failed.
+2) You probably want to record the starting location (and maybe the
+   ending location) of any match.
+3) Don't forget to trap errors, such as the case where no match was
+   made (maybe return a -1).
+
+Notes on D:
+1) Let's say the forward primer size (count) is 10. Then the forward
+   primer will be the 5 letters BEFORE the match and the 5 letters after
+   the match.
+2) Display the forward primer as "Foward Primer : ACTACT..."
+
+Notes on E:
+1) Let's say the reverse primer size (count) is 10. Then the reverse
+   primer will be the 5 letters BEFORE the match END and the 5 letters
+   after the match END.
+2) The reverse primer requires that the complement be made. The complement
+   is simply the letters swapped with their complement. The complement of
+   A is T (and vice versa) and the complement of C is G (and vice versa).
+   So the complement of GATCGTA is CTAGCAT
+3) The reverse primer also requires that the complement be reversed. To
+   do this you will need to have stored the complement in a dynamic
+   array and then print out the array in reverse order (don't forget to
+   free the array!). So the reverse of 12345 is 54321.
+4) Display the forward primer as "Reverse Primer: ACTACT..."
+
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your
+   program.
+
+3. Your source code must be named hw4-yourname.c
+
+3. Email your source (subject hw4-yourname) to rmarsh@cs.und.edu
