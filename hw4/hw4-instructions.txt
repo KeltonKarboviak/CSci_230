@@ -61,14 +61,14 @@ Notes on C:
 
 Notes on D:
 1) Let's say the forward primer size (count) is 10. Then the forward
-   primer will be the 5 letters BEFORE the match and the 5 letters after
-   the match.
+   primer will be the 5 letters BEFORE the match BEGIN and the 5 letters AFTER
+   the match BEGIN.
 2) Display the forward primer as "Foward Primer : ACTACT..."
 
 Notes on E:
 1) Let's say the reverse primer size (count) is 10. Then the reverse
    primer will be the 5 letters BEFORE the match END and the 5 letters
-   after the match END.
+   AFTER the match END.
 2) The reverse primer requires that the complement be made. The complement
    is simply the letters swapped with their complement. The complement of
    A is T (and vice versa) and the complement of C is G (and vice versa).
@@ -77,7 +77,7 @@ Notes on E:
    do this you will need to have stored the complement in a dynamic
    array and then print out the array in reverse order (don't forget to
    free the array!). So the reverse of 12345 is 54321.
-4) Display the forward primer as "Reverse Primer: ACTACT..."
+4) Display the reverse primer as "Reverse Primer: ACTACT..."
 
 
 REQUIREMENTS:
