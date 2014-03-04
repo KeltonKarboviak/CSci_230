@@ -1,0 +1,34 @@
+################################
+#                              #
+#  File:   Karboviak-makefile  #
+#  Author: Kelton Karboviak    #
+#                              #
+################################
+
+CC = gcc
+CFLAGS = -c -Wall
+
+
+all: hw5-Karboviak-load.o hw5-Karboviak-find.o hw5-Karboviak-forward.o hw5-Karboviak-reverse.o hw5-Karboviak-main.o
+	$(CC) hw5-Karboviak-load.o hw5-Karboviak-find.o hw5-Karboviak-forward.o hw5-Karboviak-reverse.o hw5-Karboviak-main.o -o HW5
+
+hw5-Karboviak-main.o: hw5-Karboviak-main.c hw5-Karboviak-main.h
+	$(CC) $(CFLAGS) hw5-Karboviak-main.c
+
+hw5-Karboviak-load.o: hw5-Karboviak-load.c hw5-Karboviak-load.h
+	$(CC) $(CFLAGS) hw5-Karboviak-load.c
+
+hw5-Karboviak-find.o: hw5-Karboviak-find.c hw5-Karboviak-find.h
+	$(CC) $(CFLAGS) hw5-Karboviak-find.c
+
+hw5-Karboviak-forward.o: hw5-Karboviak-forward.c hw5-Karboviak-forward.h
+	$(CC) $(CFLAGS) hw5-Karboviak-forward.c
+
+hw5-Karboviak-reverse.o: hw5-Karboviak-reverse.c hw5-Karboviak-reverse.h
+	$(CC) $(CFLAGS) hw5-Karboviak-reverse.c
+
+clean:
+	rm -rf *.o HW5
+
+tarball: *.c *.h
+	tar -cvzf hw5-Karboviak.tar *.c *.h Karboviak-makefile

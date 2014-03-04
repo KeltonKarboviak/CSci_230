@@ -1,0 +1,60 @@
+HW-5	CS230	10 points	Due: 3/3/2014
+
+Break your HW-4 program up into parts (sub-files).
+
+1) One file will contain the function that loads a file.
+   Call it hw5-yourname-load.c
+   This file will also require a header file.
+   Call it hw5-yourname-load.h
+
+2) One file will contain the function that finds the location
+   in the DNA data where the FASTA data is.
+   Call it hw5-yourname-find.c
+   This file will also require a header file.
+   Call it hw5-yourname-find.h
+
+3) One file will contain the function that determines and
+   displays the forward primer.
+   Call it hw5-yourname-forward.c
+   This file will also require a header file.
+   Call it hw5-yourname-forward.h
+
+4) One file will contain the function that detertimes and
+   displays the reverse primer.
+   Call it hw5-yourname-reverse.c
+   This file will also require a header file.
+   Call it hw5-yourname-reverse.h
+
+5) One file will be the main routine.
+   Call it hw5-yourname-main.c
+   This file will also require a header file.
+   Call it hw5-yourname-main.h
+
+
+Finally, you will need a makefile that includes:
+1) An "all" option
+2) A "hw5-yourname-load.o" option
+3) A "hw5-yourname-find.o" option
+4) A "hw5-yourname-forward.o" option
+5) A "hw5-yourname-reverse.o" option
+6) A "clean" option
+
+The makefile must use variables for the compiler (gcc or g++) and
+the compiler flags (-c and -Wall).
+
+Each option in the make file must include the appropriate dependencies.
+
+Call the makefile yourname-makefile
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of each source
+   file (including the header files).
+
+3. Your source code must be submitted as a single tarball called
+   hw5-yourname.tar. I will !!!NOT!!! accept submissions that are not single
+   tarballs.
+
+4. Email your source (subject hw5-yourname) to rmarsh@cs.und.edu
