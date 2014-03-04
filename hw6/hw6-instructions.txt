@@ -1,0 +1,89 @@
+HW-6	CS230	10 points	Due: 3/17/2014
+
+Write a program that uses an array-based linked
+list to manage a cell phone "circle of friends."
+
+Your program must be able to manage 10 different
+friends (ie you will need a directory that can hold
+the first and last names and starting block for 10
+entries). So you can make this a static array of
+structs.
+
+Your linked list must be able to hold the phone
+numbers (7 digits minimum) and the "next" block
+"pointer". Also, your linked list must be able to
+hold 50 phone numbers (in total). So you can make
+this a static array of structs also.
+
+You must assume that each friend can have more than
+one phone, thus a linked list will form. You may
+need a dynamic array to temporarily hold these
+numbers.
+
+Your program must read the data from a file (hw6data.txt)
+that has the following format:
+
+x firstname lastname N phone_number [phone-number] ...
+
+1) The 'x' will be I or R. 'I' indicates that you should
+   add this person to your system (if they don't already
+   exist). 'R' indicates that you should remove this
+   person from your system. Also, with 'R' N will have
+   the value 0 (you will have to process the linked list
+   to find & remove the numbers).
+
+   The 'x' may also be a Q. This is a flag to quit/exit
+   the program.
+
+   You MUST have a separate function that adds names to
+   your list.
+
+   You MUST have a separate function that removes names
+   from your list.
+
+   You may use global structures, but other variables
+   can be globals.
+
+2) firstname will be a string containing their first name.
+   since you are dealing with strings, you will want to
+   use strcpy() and strcmp().
+
+3) lastname will be a string containing their last name.
+
+4) N will be an integer telling you how many phone
+   numbers this person will have allocated to them. Since
+   any person can have more than one phone number a linked
+   list can form.
+
+5) The list of 7 digit phone numbers. The number of phone
+   numbers will match the value of N (N will start at 1).
+
+After you have processed the input data file. You MUST
+print the contents of the linked list (not the directory)
+to the screen.
+
+Example input file:
+
+I Angelina Jolie 1 7728323
+I Mel Gibson 3 7809606 7733889 7724609
+I Robert Redford 2 7721170 7731959
+I Jennifer Aniston 4 2188989 2189898 2181020 2183456
+I Jami Gertz 4 7734404 7774012 7773023 7921492
+I Brad Pitt 2 7774017 7878485
+R Sylvester Stallone 0
+I Victoria Principal 3 7933045 7771234 7820987
+R Jennifer Aniston 0
+R Sean Penn 0
+I Kevin Costner 1 7874014
+Q
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your
+   program.
+
+3. Your source code must be named hw6-yourname.c
+
+3. Email your source (subject hw6-yourname) to rmarsh@cs.und.edu

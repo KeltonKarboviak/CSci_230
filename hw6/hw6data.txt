@@ -1,0 +1,12 @@
+I Angelina Jolie 1 7728323
+I Mel Gibson 3 7809606 7733889 7724609
+I Robert Redford 2 7721170 7731959
+I Jennifer Aniston 4 2188989 2189898 2181020 2183456
+I Jami Gertz 4 7734404 7774012 7773023 7921492
+I Brad Pitt 2 7774017 7878485
+R Sylvester Stallone 0
+I Victoria Principal 3 7933045 7771234 7820987
+R Jennifer Aniston 0
+R Sean Penn 0
+I Kevin Costner 1 7874014
+Q
