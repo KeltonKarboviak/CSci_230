@@ -85,7 +85,7 @@ int Add_Contact(char *fname, char *lname, int N, char **numbers,
 	// Search number_list for the new contact's start block
 	int currentBlock;
 	for (i = 0; i < nCount; i++) {
-		if (number_list[i].nextBlock == -1) {
+		if (number_list.nextBlock == -1) {
 			currentBlock = i;
 			break;
 		}
