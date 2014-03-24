@@ -1,5 +1,5 @@
 /***********************************/
-/* CSci 230 HW #6                  */ 
+/* CSci 230 HW #6                  */
 /*                                 */
 /* File:   hw6-Karboviak.c         */
 /* Author: Kelton Karboviak        */
@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #define dCount 10
 #define nCount 50
 
@@ -21,7 +22,7 @@ struct contact {
 };
 
 struct phoneNumber {
-	char number[7];
+	char number[8];
 	int nextBlock;
 };
 
@@ -51,8 +52,27 @@ int Search_Contacts(char *fname, char *lname, struct contact *directory) {
 /* if it is in the list.                            */
 /*   returns 0 if successful, -1 if unsuccessful    */
 /****************************************************/
-int Remove_Contact() {
+int Remove_Contact(char *fname, char *lname,
+                   struct contact *directory, struct phoneNumber *number_list) {
 
+	// Search contacts to obtain the index of the contact
+	int index = Search_Contacts(fname, lname, directory);
+	if (index == -1)  return -1;
+
+	// Go through the contact's phone numbers and re-initialize the number_list blocks
+	int i, currentBlock;
+	currentBlock = directory[index].startBlock;
+	do {
+		i = currentBlock;
+		strcpy(number_list[currentBlock].number, "N.A.");
+		currentBlock = number_list[currentBlock].nextBlock;
+		number_list[i].nextBlock = -1;
+	} while (currentBlock != -2);  // -2 indicates "eof" which is the last phone number
+
+	// Re-initialize the directory block
+	strcpy(directory[index].fname, "N.A.");
+	strcpy(directory[index].lname, "N.A.");
+	directory[index].startBlock = -1;
 
 	return 0;
 }
@@ -65,39 +85,49 @@ int Remove_Contact() {
 /****************************************************/
 int Add_Contact(char *fname, char *lname, int N, char **numbers,
                 struct contact *directory, struct phoneNumber *number_list) {
-    // Search contacts to get the index of the name in the directory
-	int index = Search_Contacts(fname, lname, directory);
-	if (index != -1)  return -1;  // Contact already exists in the directory
-	
+
+    // Search contacts to find if the contact already exists
+	if (Search_Contacts(fname, lname, directory) != -1)  return -1;  // Contact already exists in the directory
+
 	// Search directory for an empty index
-	int i, emptyIndex;
+	int i, k, emptyIndex, prevBlock;
 	for (i = 0; i < dCount; i++) {
 		if (directory[i].startBlock == -1) {
 			emptyIndex = i;
 			break;
 		}
 	}
-	
+
 	// Add new contact into directory
 	strcpy(directory[emptyIndex].fname, fname);
 	strcpy(directory[emptyIndex].lname, lname);
-	
+
 	// Search number_list for the new contact's start block
-	int currentBlock;
 	for (i = 0; i < nCount; i++) {
 		if (number_list[i].nextBlock == -1) {
-			currentBlock = i;
+			prevBlock = i;
 			break;
 		}
 	}
-	
-	// Add new contact's start block
-	directory[emptyIndex].startBlock = currentBlock;
-	
+
+	// Add new contact's start block & add first phone number to number_list
+	directory[emptyIndex].startBlock = prevBlock;
+	strcpy(number_list[prevBlock].number, numbers[0]);
+	k = prevBlock;
+
 	// Add new contact's phone numbers into number_list
-	for (i = 0; i < N; i++) {
-		
+	for (i = 1; i < N; i++) {
+		for (k = prevBlock + 1; k < nCount; k++) {
+			if (number_list[k].nextBlock == -1) {
+				strcpy(number_list[k].number, numbers[i]);
+				number_list[prevBlock].nextBlock = k;
+				prevBlock = k;
+				break;
+			}
+		}
 	}
+	// Last phone number's next block equals -2 indicating "eof"
+	number_list[k].nextBlock = -2;
 
 	return 0;
 }
@@ -123,13 +153,16 @@ int main(void) {
 
 
 	int i;
-	// Initialize DIRECTORY with -1 (indicates free block)
+	// Initialize DIRECTORY with N.A. & -1 (indicates free block)
 	for (i = 0; i < dCount; i++) {
+		strcpy(DIRECTORY[i].fname, "N.A.");
+		strcpy(DIRECTORY[i].lname, "N.A.");
 		DIRECTORY[i].startBlock = -1;
 	}
 
-	// Initialize NUMBER_LIST with -1 (indicates free block)
+	// Initialize NUMBER_LIST with N.A. & -1 (indicates free block)
 	for (i = 0; i < nCount; i++) {
+		strcpy(NUMBER_LIST[i].number, "N.A.");
 		NUMBER_LIST[i].nextBlock = -1;
 	}
 
@@ -143,28 +176,35 @@ int main(void) {
 		if (status == 'I') {        // Add a contact
 			fscanf(inFile, "%s %s %d", fname, lname, &N);
 			// Create 2D dynamic char array for phone numbers as strings
-			temp = (char**) calloc(N, sizeof(*temp));        // Creates a column of pointers
+			temp = (char**) calloc(N, sizeof(*temp));       // Creates a column of pointers
 			for (i = 0; i < N; i++) {
-				temp[i] = (char*) calloc(7, sizeof(char));  // Create a row of chars
+				temp[i] = (char*) calloc(8, sizeof(char));  // Create a row of chars
 			}
 
 			// Store N numbers in dynamic array
 			for (i = 0; i < N; i++) {
 				fscanf(inFile, "%s", temp[i]);
 			}
-			for (i = 0; i < N; i++) {    // TEST TEST TEST
-				printf("%s\n", temp[i]);
-			}
 
 			Add_Contact(fname, lname, N, temp, DIRECTORY, NUMBER_LIST);
+			free(temp);  temp = NULL;  // Clean up pointer
 		}
 		else if (status == 'R') {  // Remove a contact
-
+			fscanf(inFile, "%s %s %d", fname, lname, &N);
+			Remove_Contact(fname, lname, DIRECTORY, NUMBER_LIST);
 		}
 
 	} while (status != 'Q');
 
-	printf("\nDONE !!!\n");
+
+	printf("\nPHONE NUMBER LIST\n");
+	printf("NOTE: -1 = free block\n %16s", "-2 = 'eof'\n");
+	printf("-----------------\n");
+	printf("   %-8s %-s\n", "NUMBER", "NEXT");
+	for (i = 0; i < nCount; i++) {
+		printf("%2d %-8s %3d\n", i, NUMBER_LIST[i].number, NUMBER_LIST[i].nextBlock);
+	}
+
 
 	fclose(inFile);
 	return 0;

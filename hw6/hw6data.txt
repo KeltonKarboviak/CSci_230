@@ -9,4 +9,9 @@ I Victoria Principal 3 7933045 7771234 7820987
 R Jennifer Aniston 0
 R Sean Penn 0
 I Kevin Costner 1 7874014
+R Angelina Jolie 0
+I Kelton Karboviak 5 5210226 3600545 3603200 4543913 3601400
+I Mel Gibson 1 1234567
+I Justin Smith 3 0000000 0000000 0000000
+R Jami Gertz 0
 Q
