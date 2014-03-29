@@ -1,0 +1,123 @@
+HW-7-D	CS230	20 points	Due: 3/31/2014
+
+Write a program that uses a pointer-based linked
+list to manage a spell checker translator. 
+
+1. Your program must read in each word of the input file
+(hw7data.txt) and put each word into a separate link
+in the linked list (you *MUST* create a pointer-based 
+linked list for this). In each case (each word), you need
+to create a link that can hold that word precisely (i.e. the
+payload section must be sized specifically for each word).
+In other words, your structure for the linked list *CANNOT*
+look like this:
+
+   struct node {
+      char word[n];
+      struct node *next;
+   }
+
+It *MUST* look like this:
+
+   struct node {
+      char *word;
+      struct node *next;
+   }
+
+The difference is that in the required form, there is no
+space allocated for the text. You will have to use malloc/calloc
+to allocate that space (see hints below).
+
+2. You need to create a second word list that contains the 
+�correct� word for each word in the hw7data.txt file. By 
+�correct,� I mean a word that when it replaces the matching
+word in the hw7data.txt file the poem make sense. We will call
+this the codex file.
+
+3. Your program must read in each word of the codex file
+(hw7codex.txt) and put each word into a separate link
+in the linked list (you *MUST* create a pointer-based 
+linked list for this). In each case (each word), you need
+to create a link that can hold that word precisely (i.e. the
+payload section must be sized specifically for each word).
+In other words, the same rules apply for this linked list as
+in the first linked-list. At this point you MUST have 2 linked 
+lists.
+
+4. You must traverse the hw7data linked list replacing 
+each word with the translated word from the hw7codex 
+linked list. In some cases the existing word will be removed 
+(e.g. "plane" "lee" may become "plainly" so "lee" must be 
+removed from the linked list). In other cases the codex word
+may be longer or shorter than the original word, in these 
+cases the original link must be deleted and replaced with a 
+new link. This guarantees that the memory consumption will 
+be optimal/minimal. You can do this with every replaced word 
+if you like. You **CANNOT** simply create a third linked list, 
+you are only allowed to have 2 linked lists, in total.
+
+5. You must traverse the hw7data linked list displaying the 
+corrected poem. The display MUST have the same exact format
+as the hw7data.txt file. 
+
+Your program must read the data from a file (hw7data.txt)
+that has the following content:
+
+Eye have a spelling chequer,
+It came with my Pea Sea.
+It plane lee marks four my revue,
+Miss Steaks I can knot sea.
+Eye strike the quays and type a whirred,
+And weight four it two say,
+Weather eye am write oar wrong,
+It tells me straight aweigh.
+Eye ran this poem threw it,
+Your shore real glad two no.
+Its vary polished in its weigh.
+My chequer tolled me sew.
+A chequer is a bless thing,
+It freeze yew lodes of thyme.
+It helps me right all stiles of righting,
+And aides me when eye rime.
+Each frays come posed up on my screen,
+Eye trussed too bee a joule.
+The chequer pours over every word,
+Two cheque sum spelling rule.
+
+EXTRA CREDIT:
+-------------
+1. (5 points) Include the use of a TAIL pointer that tracks the 
+end of the linked list.
+
+2. (5 points) Create separate functions that insert, search, 
+replace/update, and freenodes from the linked list. As the 2 linked
+lists may have different payloads (i.e. define by different structs),
+you may want to create separate functions that insert into for each and
+for freeing.
+
+3. (5 points) Pass by reference the head and tail pointers to the
+functions created in #2. 
+
+HINTS:
+------
+Passing pointers by reference:
+http://cboard.cprogramming.com/c-programming/109893-passing-pointers-reference.html
+(see response by QuantumPete)
+
+How to dynamically set the size of a string in a link:
+http://stackoverflow.com/questions/1802221/how-to-set-a-struct-member-of-type-string
+(see response by Amarghosh).
+
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your 
+   program.
+
+3. Your source code must be named hw7-yourname.c
+
+4. Email your source (subject hw7-yourname) to rmarsh@cs.und.edu 
+
+5. Note in your email if you did the extra credit and to what level.
