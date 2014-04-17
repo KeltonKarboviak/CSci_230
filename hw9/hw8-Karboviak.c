@@ -2,7 +2,7 @@
  * File:   hw8-Karboviak.c
  * Author: Kelton Karboviak
  *
- * Version: April , 2014
+ * Version: April 14, 2014
  */
 
 
@@ -17,8 +17,8 @@
 /* struct graph is used to represent a node in the graph of locations */
 struct graph {
     char *name;
-    struct connection* connects[10];
-    int count;
+    struct connection* arcs[10];
+    int count, traversed;  // traverse is used as a boolean
 };
 
 /* struct connection is used to represent the one-way link between establishments */
@@ -34,46 +34,19 @@ struct index {
     struct index *next;
 };
 
-typedef struct graph gNode;
-typedef struct connection link;
-typedef struct index iNode;
+typedef struct graph _gNode;
+typedef struct connection _link;
+typedef struct index _iNode;
 
 
 /************************************************************/
 /* FUNCTIONS                                                */
 /************************************************************/
-void PRINT_INDEX(iNode *head) {  //TEST TEST TEST
-    iNode *current;
-    current = head;
-    while (current != NULL) {
-        printf("%s\n", current->name);
-        current = current->next;
-    }
-}
-
-
-/*******************************************************************/
-void PRINT_GRAPH(iNode *head) {  // TEST TEST TEST
-    iNode *current;
-    current = head;
-    gNode *gPtr;
-    int i;
-    while (current != NULL) {
-        gPtr = current->graphPtr;
-        for (i = 0; i < gPtr->count; i++) {
-            printf("From %s to %s is %d\n", gPtr->name, gPtr->connects[i]->dest->name, gPtr->connects[i]->weight);
-        }
-
-        current = current->next;
-    }
-}
-
-
 /********************************************************/
 /* SEARCH INDEX LINKED-LIST                             */
 /********************************************************/
-iNode* SEARCH_INDEX(iNode *head, char searchName[]) {
-    iNode *current;
+_iNode* SEARCH_INDEX(_iNode *head, char searchName[]) {
+    _iNode *current;
     current = head;
     while (current != NULL) {
         if (!strcmp(current->name, searchName))  return current;
@@ -87,35 +60,36 @@ iNode* SEARCH_INDEX(iNode *head, char searchName[]) {
 /********************************************************/
 /* CREATE A NEW GRAPH NODE                              */
 /********************************************************/
-void CREATE_GRAPH_NODE(gNode *(*newNode), char name[]) {
-    (*newNode) = (gNode*) malloc(sizeof(gNode));
+void CREATE_GRAPH_NODE(_gNode *(*newNode), char name[]) {
+    (*newNode) = (_gNode*) malloc(sizeof(_gNode));
     (*newNode)->name = (char*) calloc(sizeof(char), strlen(name));
     strcpy((*newNode)->name, name);
-    (*newNode)->count = 0;
+    (*newNode)->count     = 0;
+    (*newNode)->traversed = 0;
 }
 
 
 /********************************************************/
 /* INSERT ARC INTO GRAPH                                */
 /********************************************************/
-void INSERT_ARC(iNode *head, char name1[], char name2[], int weight) {
+void INSERT_ARC(_iNode *head, char name1[], char name2[], int weight) {
 #define gPtr1 start->graphPtr
-#define gPtr2 end->graphPtr
+#define gPtr2 end  ->graphPtr
     // Find first establishment in the index
-    iNode *start = SEARCH_INDEX(head, name1);
+    _iNode *start = SEARCH_INDEX(head, name1);
     // Check to see if the graphPtr hasn't been created
     if (gPtr1 == NULL)  CREATE_GRAPH_NODE(&gPtr1, name1);
 
     // Find second establishment in the index
-    iNode *end   = SEARCH_INDEX(head, name2);
+    _iNode *end   = SEARCH_INDEX(head, name2);
     // Check to see if the graphPtr hasn't been created
     if (gPtr2 == NULL)  CREATE_GRAPH_NODE(&gPtr2, name2);
 
 
     // Create one-way link from start to end
-    gPtr1->connects[gPtr1->count] = (link*) malloc(sizeof(link));
-    gPtr1->connects[gPtr1->count]->dest   = gPtr2;
-    gPtr1->connects[gPtr1->count]->weight = weight;
+    gPtr1->arcs[gPtr1->count] = (_link*) malloc(sizeof(_link));
+    gPtr1->arcs[gPtr1->count]->dest   = gPtr2;
+    gPtr1->arcs[gPtr1->count]->weight = weight;
     (gPtr1->count)++;
 }
 
@@ -123,9 +97,9 @@ void INSERT_ARC(iNode *head, char name1[], char name2[], int weight) {
 /********************************************************/
 /* INSERT INTO INDEX LINKED-LIST.                       */
 /********************************************************/
-void INSERT_INDEX(iNode *(*head), iNode *(*tail), char name[]) {
-	iNode *newNode;
-	newNode = (iNode*) malloc(sizeof(iNode));
+void INSERT_INDEX(_iNode *(*head), _iNode *(*tail), char name[]) {
+	_iNode *newNode;
+	newNode = (_iNode*) malloc(sizeof(_iNode));
 	newNode->name = (char*) calloc(sizeof(char), strlen(name));
 	strcpy(newNode->name, name);
     newNode->graphPtr = NULL;
@@ -141,22 +115,22 @@ void INSERT_INDEX(iNode *(*head), iNode *(*tail), char name[]) {
 /********************************************************/
 /* DRUNKARD'S WALK ALGORITHM                            */
 /********************************************************/
-int DRUNK_WALK(iNode *head, char start[]) {
-    srand(50);
+int DRUNK_WALK(_iNode *head, char start[], char end[]) {
+    srand(100);
     int total = 0, random;
-    // Find starting establishment's graph node
-    gNode *current = SEARCH_INDEX(head, start)->graphPtr;
-    printf("Starting at %s\n", current->name);
 
-    while (strcmp(current->name, "Home")) {
-        printf("Visiting %s\n", current->name);
+    // Find starting establishment's graph node
+    _gNode *current = SEARCH_INDEX(head, start)->graphPtr;
+
+    printf("\nDRUNKARD'S WALK\n----------------\n");
+    printf("Started at %s\n", current->name);
+    while (strcmp(current->name, end)) {
         random = rand() % current->count;
-        printf("\tcost = %d\n", current->connects[random]->weight);
-        total += current->connects[random]->weight;
-        current = current->connects[random]->dest;
+        total += current->arcs[random]->weight;
+        current = current->arcs[random]->dest;
     }
 
-    printf("You made it Home!!!\n");
+    printf("Ended at %s\n", current->name);
     return total;
 }
 
@@ -164,9 +138,76 @@ int DRUNK_WALK(iNode *head, char start[]) {
 /********************************************************/
 /* GREEDY WALK ALGORITHM                                */
 /********************************************************/
-int GREEDY_WALK(iNode *head, char start[]) {
-    int total = 0;
+int GREEDY_WALK(_iNode *head, char start[], char end[], int N) {
+    int total = 0, shortest, i;
+
+    // Find starting establishment's graph node
+    _gNode *current = SEARCH_INDEX(head, start)->graphPtr;
+
+    printf("\nGREEDY WALK\n----------------\n");
+    printf("Started at %s\n", current->name);
+    while (strcmp(current->name, end)) {
+        // Check to see if the graph node has already been traversed
+        if (current->traversed) {
+            printf("\nStuck in an infinite greedy loop.\n");
+            printf("You will never make it to your destination.\n\n");
+            return -1;
+        }
+
+        // Iterate through connections to find the shortest path
+        shortest = 0;
+        for (i = 1; i < current->count; i++) {
+            if (current->arcs[i]->weight < current->arcs[shortest]->weight)
+                shortest = i;
+        }
+
+        (current->traversed)++;
+        total += current->arcs[shortest]->weight;
+        current = current->arcs[shortest]->dest;
+    }
+
+    printf("Ended at %s\n", current->name);
     return total;
+}
+
+
+/********************************************************/
+/* DESTROY THE GRAPH                                    */
+/********************************************************/
+void DESTROY_GRAPH(_iNode *(*head)) {
+    _iNode *current;
+    int i;
+
+    current = (*head);
+    while (current != NULL) {
+        for (i = 0; i < current->graphPtr->count; i++) {
+            free(current->graphPtr->arcs[i]);
+            current->graphPtr->arcs[i] = NULL;
+        }
+
+        free(current->graphPtr->name);  current->graphPtr->name = NULL; // Free the graphPtr's name
+        free(current->graphPtr);        current->graphPtr       = NULL; // Free the index's graphPtr
+        current = current->next;
+    }
+}
+
+
+/********************************************************/
+/* DESTROY THE INDEX LINKED-LIST                        */
+/********************************************************/
+void DESTROY_INDEX(_iNode *(*head), _iNode *(*tail)) {
+    _iNode *current = NULL;
+
+	while ((*head) != NULL) {
+		current = (*head);
+		(*head) = (*head)->next;
+		free(current->name);  current->name = NULL;   // Free the index node's name
+		free(current);        current       = NULL;   // Free the index node
+	}
+
+	// Free head & tail pointers
+	(*head) = (*tail) = NULL;
+	free((*head));  free((*tail));
 }
 
 
@@ -182,18 +223,19 @@ int main(void) {
         exit (0);
     }
 
-    iNode *head, *tail;
+    _iNode *head, *tail;
     head = tail = NULL;
     char name1[100], name2[100], startLoc[100];
-    int weight;
+    int weight, numOfNodes = 0;
 
     // Read in establishments
     fscanf(data, "%s", name1);
     while (strcmp(name1, "STOP")) {
         INSERT_INDEX(&head, &tail, name1);
+        numOfNodes++;
         fscanf(data, "%s", name1);
     }
-    PRINT_INDEX(head);  // TEST TEST TEST
+
 
     // Read in connections
     fscanf(data, "%s %s %d", name1, name2, &weight);
@@ -201,14 +243,20 @@ int main(void) {
         INSERT_ARC(head, name1, name2, weight);
         fscanf(data, "%s %s %d", name1, name2, &weight);
 	}
-    PRINT_GRAPH(head);  // TEST TEST TEST
+
 
     // Read in starting location
     fscanf(data, "%s", startLoc);
 
     int cost;
-    cost = DRUNK_WALK(head, startLoc);
-    printf("Total Cost = %d\n", cost);
+    cost = DRUNK_WALK(head, startLoc, tail->name);
+    printf("Total Random Cost = %d\n\n", cost);
+
+    cost = GREEDY_WALK(head, startLoc, tail->name, numOfNodes);
+    if (cost != -1)  printf("Total Greedy Cost = %d\n\n", cost);
+
+    DESTROY_GRAPH(&head);
+    DESTROY_INDEX(&head, &tail);
 
     return 0;
 }
