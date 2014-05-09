@@ -1,0 +1,25 @@
+HW-9	CS230	10 points	Due: 4/23/14
+
+Tweak your HW8 code (random walk) to extract every bit of performance 
+possible. At minimum, you need to generate and Excel plot that shows 
+runtime vs optimization tried (vertical axis should be runtime, horizontal
+axis should be optimization tried). Your chart needs to have at least 
+5 different optimizations.
+
+Your worst runtime needs to be around 30 seconds, so you will probably
+have to wrap your code in a for-loop to get it to run long enough. I suggest 
+you pick a seed for the random number generator too.
+
+To measure the runtime, you will need to add a time counter (clock) to your code.
+
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of your 
+   program.
+
+3. Your source code must be named hw9-yourname.c
+
+4. Email your source (subject hw9-yourname) and spreadsheet to rmarsh@cs.und.edu
