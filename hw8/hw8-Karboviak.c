@@ -247,6 +247,7 @@ int main(void) {
 
     // Read in starting location
     fscanf(data, "%s", startLoc);
+    fclose(data);
 
     int cost;
     cost = DRUNK_WALK(head, startLoc, tail->name);

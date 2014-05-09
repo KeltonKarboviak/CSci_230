@@ -1,5 +1,5 @@
 /*
- * File:   hw8-Karboviak.c
+ * File:   hw9-Karboviak.c
  * Author: Kelton Karboviak
  *
  * Version: April 14, 2014
@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 
 /************************************************************/
@@ -18,7 +19,7 @@
 struct graph {
     char *name;
     struct connection* arcs[10];
-    int count, traversed;  // traverse is used as a boolean
+    int count, traversed;  // traversed is used as a boolean
 };
 
 /* struct connection is used to represent the one-way link between establishments */
@@ -50,7 +51,9 @@ _iNode* SEARCH_INDEX(_iNode *head, char searchName[]) {
     current = head;
     while (current != NULL) {
         if (!strcmp(current->name, searchName))  return current;
-        current = current->next;
+        if (!strcmp(current->next->name, searchName))  return current->next;
+        if (!strcmp(current->next->next->name, searchName))  return current->next->next;
+        current = current->next->next->next;
     }
 
     return NULL;
@@ -98,7 +101,7 @@ void INSERT_ARC(_iNode *head, char name1[], char name2[], int weight) {
 /* INSERT INTO INDEX LINKED-LIST.                       */
 /********************************************************/
 void INSERT_INDEX(_iNode *(*head), _iNode *(*tail), char name[]) {
-	_iNode *newNode;
+    _iNode *newNode;
 	newNode = (_iNode*) malloc(sizeof(_iNode));
 	newNode->name = (char*) calloc(sizeof(char), strlen(name));
 	strcpy(newNode->name, name);
@@ -216,47 +219,63 @@ void DESTROY_INDEX(_iNode *(*head), _iNode *(*tail)) {
 /* MAIN                                                     */
 /************************************************************/
 int main(void) {
-    // Open data file
-    FILE *data;
-    if ((data = fopen("./hw8data.txt", "r")) == NULL) {
-        printf("ERROR - hw8data.txt could not be opened.\n");
-        exit (0);
+    clock_t beginTime, endTime;
+    double totalTime;
+
+    beginTime = clock();
+
+    int i,k;
+    for (k = 0; k < 5; k++) {
+        for (i = 0; i < 40000; i++) {
+            // Open data file
+            FILE *data;
+            if ((data = fopen("./hw8data.txt", "r")) == NULL) {
+                printf("ERROR - hw8data.txt could not be opened.\n");
+                exit (0);
+            }
+
+            _iNode *head, *tail;
+            head = tail = NULL;
+            char name1[100], name2[100], startLoc[100];
+            int weight, numOfNodes = 0;
+
+            // Read in establishments
+            fscanf(data, "%s", name1);
+            while (strcmp(name1, "STOP")) {
+                INSERT_INDEX(&head, &tail, name1);
+                numOfNodes++;
+                fscanf(data, "%s", name1);
+            }
+
+
+            // Read in connections
+            fscanf(data, "%s %s %d", name1, name2, &weight);
+            while (strcmp(name1, "STOP") && strcmp(name2, "STOP")) {
+                INSERT_ARC(head, name1, name2, weight);
+                fscanf(data, "%s %s %d", name1, name2, &weight);
+            }
+
+
+            // Read in starting location
+            fscanf(data, "%s", startLoc);
+            fclose(data);
+
+            int cost;
+            cost = DRUNK_WALK(head, startLoc, tail->name);
+            printf("Total Random Cost = %d\n\n", cost);
+
+            cost = GREEDY_WALK(head, startLoc, tail->name, numOfNodes);
+            if (cost != -1)  printf("Total Greedy Cost = %d\n\n", cost);
+
+            DESTROY_GRAPH(&head);
+            DESTROY_INDEX(&head, &tail);
+        }
     }
 
-    _iNode *head, *tail;
-    head = tail = NULL;
-    char name1[100], name2[100], startLoc[100];
-    int weight, numOfNodes = 0;
-
-    // Read in establishments
-    fscanf(data, "%s", name1);
-    while (strcmp(name1, "STOP")) {
-        INSERT_INDEX(&head, &tail, name1);
-        numOfNodes++;
-        fscanf(data, "%s", name1);
-    }
-
-
-    // Read in connections
-    fscanf(data, "%s %s %d", name1, name2, &weight);
-	while (strcmp(name1, "STOP") && strcmp(name2, "STOP")) {
-        INSERT_ARC(head, name1, name2, weight);
-        fscanf(data, "%s %s %d", name1, name2, &weight);
-	}
-
-
-    // Read in starting location
-    fscanf(data, "%s", startLoc);
-
-    int cost;
-    cost = DRUNK_WALK(head, startLoc, tail->name);
-    printf("Total Random Cost = %d\n\n", cost);
-
-    cost = GREEDY_WALK(head, startLoc, tail->name, numOfNodes);
-    if (cost != -1)  printf("Total Greedy Cost = %d\n\n", cost);
-
-    DESTROY_GRAPH(&head);
-    DESTROY_INDEX(&head, &tail);
+    endTime = clock();
+    totalTime = (double)(endTime-beginTime) / CLOCKS_PER_SEC;
+    printf("Total Processor Clock: %f\n", totalTime);
+    printf("Average Over 5 runs  : %f\n", totalTime/5);
 
     return 0;
 }
