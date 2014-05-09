@@ -1,0 +1,81 @@
+HW-10	CS230		40 points	Due: May 9
+
+For this assignment you will divide up HW-5 and develop a
+Makefile to practice using the compiler and linker with
+libraries. All files will be strictly C code - no C++!
+
+Part 1 (10 points):
+------------------
+Separate HW-5 into the following files:
+1) One file will contain the function that loads a file. 
+   Call it hw10-yourname-load.c
+   This file will also require a header file.
+   Call it hw10-yourname-load.h
+
+2) One file will contain the function that finds the location 
+   in the DNA data where the FASTA data is. 
+   Call it hw10-yourname-find.c
+   This file will also require a header file.
+   Call it hw10-yourname-find.h
+
+3) One file will contain the function that determines and 
+   displays the forward primer.
+   Call it hw10-yourname-forward.c
+   This file will also require a header file.
+   Call it hw10-yourname-forward.h
+
+4) One file will contain the function that determines and 
+   displays the reverse primer.
+   Call it hw10-yourname-reverse.c
+   This file will also require a header file.
+   Call it hw10-yourname-reverse.h
+
+5) One file will be the main routine.
+   Call it hw10-yourname-main.c
+   This file will also require a header file.
+   Call it hw10-yourname-main.h
+
+Write a Makefile that compiles and links the above in 2 (two) 
+steps. You MUST call this Makefile "Makefile1".
+
+
+Part 2 (5 points):
+------------------
+Write a Makefile that creates a STATIC library/archive 
+(hw10-lib-yourname.a) out of the associated c files (1, 2, 3, & 
+4) and that compiles and links hw10-yourname-main.c with your static 
+library. You MUST call this Makefile "Makefile2".
+
+
+Part 3 (5 points):
+------------------
+Write a Makefile that creates SHARED a library 
+(hw10-lib-yourname.so) out of the associated c files (1, 2, 3, & 
+4) and that compiles and links hw10-yourname-main.c with your shared
+library. You MUST call this Makefile "Makefile3".
+
+
+Part 4 (20 points):
+-------------------
+Modify hw10-yourname-main.c to use the SHARED library 
+(hw10-lib-yourname.so) dynamically (using dlopen). Call 
+this MAIN program hw10-yourname-4.c
+
+Write a Makefile that compiles and links hw10-yourname-4.c
+with your dynamic shared library. You MUST call this 
+Makefile "Makefile4".
+
+Note that all of the functionality must exist in this program
+as it did in hw5 to earn full credit.
+
+REQUIREMENTS:
+-------------
+1. Your program must run in Streibel 115/109 or on shell.aero.und.edu.
+
+2. Your full name must appear as a comment at the beginning of each file
+   of your program.
+
+3. Your tarball must be named hw10-yourname.tar
+
+4. Email your source (subject hw10-yourname) to rmarsh@cs.und.edu 
+

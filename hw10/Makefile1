@@ -1,0 +1,33 @@
+################################
+#                              #
+#  File:   Makefile1           #
+#  Author: Kelton Karboviak    #
+#                              #
+################################
+
+CC = gcc
+CFLAGS = -c -Wall
+OBJECT_FILES = hw10-Karboviak-load.o hw10-Karboviak-find.o hw10-Karboviak-forward.o hw10-Karboviak-reverse.o hw10-Karboviak-main.o
+
+
+all: $(OBJECT_FILES)
+	$(CC) $(OBJECT_FILES) -o hw10
+
+
+hw10-Karboviak-load.o: hw10-Karboviak-load.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-load.c
+
+hw10-Karboviak-find.o: hw10-Karboviak-find.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-find.c
+
+hw10-Karboviak-forward.o: hw10-Karboviak-forward.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-forward.c
+
+hw10-Karboviak-reverse.o: hw10-Karboviak-reverse.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-reverse.c
+
+hw10-Karboviak-main.o: hw10-Karboviak-main.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-main.c
+
+clean:
+	rm -rf *.o hw10

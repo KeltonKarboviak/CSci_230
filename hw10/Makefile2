@@ -1,0 +1,32 @@
+################################
+#                              #
+#  Creates a STATIC library    #
+#  File:   Makefile2           #
+#  Author: Kelton Karboviak    #
+#                              #
+################################
+
+CC = gcc
+CFLAGS = -c -Wall
+OBJECT_FILES = hw10-Karboviak-load.o hw10-Karboviak-find.o hw10-Karboviak-forward.o hw10-Karboviak-reverse.o
+
+
+all: $(OBJECT_FILES) hw10-Karboviak-main.c
+	ar -rcs hw10-lib-Karboviak.a $(OBJECT_FILES)
+	$(CC) hw10-Karboviak-main.c -o hw10 ./hw10-lib-Karboviak.a
+
+
+hw10-Karboviak-load.o: hw10-Karboviak-load.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-load.c
+
+hw10-Karboviak-find.o: hw10-Karboviak-find.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-find.c
+
+hw10-Karboviak-forward.o: hw10-Karboviak-forward.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-forward.c
+
+hw10-Karboviak-reverse.o: hw10-Karboviak-reverse.c hw10-lib-Karboviak.h
+	$(CC) $(CFLAGS) hw10-Karboviak-reverse.c
+
+clean:
+	rm -rf *.o hw10
